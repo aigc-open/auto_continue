@@ -63,7 +63,6 @@
 
 </div>
 
-
 ## License
 
-[Apache 2.0 © 2023-2024 ](./LICENSE)
+[Apache 2.0 © 2015 ](./LICENSE)

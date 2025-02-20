@@ -1,22 +1,22 @@
 {
-  "name": "continue",
+  "name": "efcontinue",
   "icon": "media/icon.png",
   "author": "Enflame",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aigc-open/continue"
+    "url": "https://github.com/aigc-open/auto_continue"
   },
   "extensionKind": [
     "ui",
     "workspace"
   ],
   "bugs": {
-    "url": "https://github.com/aigc-open/continue/issues",
+    "url": "https://github.com/aigc-open/auto_continue/issues",
     "email": "nate@continue.dev"
   },
   "homepage": "https://www.enflame-tech.com",
-  "qna": "https://github.com/aigc-open/continue/issues/new/choose",
+  "qna": "https://github.com/aigc-open/auto_continue/issues/new/choose",
   "license": "Apache-2.0",
   "displayName": "Enflame Code Continue - 代码生成",
   "pricing": "Free",
