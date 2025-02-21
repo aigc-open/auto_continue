@@ -310,6 +310,8 @@ export class Core {
             ...model,
             apiKey: apiKey // Use the provided apiKey
           }));
+        }else{
+          throw new Error('Invalid config format');
         }
 
         // Update API key in tabAutocompleteModel

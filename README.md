@@ -65,4 +65,4 @@
 
 ## License
 
-[Apache 2.0 © 2015 ](./LICENSE)
+[Apache 2.0 © 2025 ](./LICENSE)

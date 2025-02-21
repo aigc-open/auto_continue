@@ -576,34 +576,34 @@ export function Chat() {
             <>
               <div className="flex flex-col items-center justify-center mt-20 mb-10">
                 <ChatBubbleLeftRightIcon className="h-16 w-16 text-gray-400 mb-4" />
-                <h2 className="text-xl font-medium mb-2">欢迎使用代码生成</h2>
+                <h2 className="text-xl font-medium mb-2">Welcome to Code Generation</h2>
                 <p className="text-gray-400 text-center max-w-md mb-8">
-                  您的智能编程助手，可以帮助您完成代码补全、解释、优化等任务。
-                  开始对话，让我们一起编写更好的代码！
+                  Your intelligent programming assistant can help you with code completion, explanation, optimization, and more.
+                  Start a conversation, and let's write better code together!
                 </p>
                 
                 <div className="flex flex-col gap-6 mt-8 max-w-2xl mx-auto">
                   <div className="bg-gray-800/30 rounded-lg p-6">
                     <div className="font-medium mb-4 text-lg flex items-center gap-2 text-gray-200">
                       <CodeBracketIcon className="h-5 w-5" />
-                      <span>核心功能</span>
+                      <span>Core Features</span>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="flex items-start gap-3">
                         <SparklesIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">智能代码补全与生成</span>
+                        <span className="text-gray-400">Intelligent Code Completion and Generation</span>
                       </div>
                       <div className="flex items-start gap-3">
                         <CommandLineIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">多语言代码转换</span>
+                        <span className="text-gray-400">Multi-language Code Conversion</span>
                       </div>
                       <div className="flex items-start gap-3">
                         <ShieldCheckIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">代码审查与优化</span>
+                        <span className="text-gray-400">Code Review and Optimization</span>
                       </div>
                       <div className="flex items-start gap-3">
                         <DocumentTextIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">自动注释与文档</span>
+                        <span className="text-gray-400">Automatic Comments and Documentation</span>
                       </div>
                     </div>
                   </div>
@@ -611,24 +611,24 @@ export function Chat() {
                   <div className="bg-gray-800/30 rounded-lg p-6">
                     <div className="font-medium mb-4 text-lg flex items-center gap-2 text-gray-200">
                       <BoltIcon className="h-5 w-5" />
-                      <span>核心优势</span>
+                      <span>Core Advantages</span>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="flex items-start gap-3">
                         <BeakerIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">AI 驱动的智能分析</span>
+                        <span className="text-gray-400">AI-Driven Intelligent Analysis</span>
                       </div>
                       <div className="flex items-start gap-3">
                         <CpuChipIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">实时响应与建议</span>
+                        <span className="text-gray-400">Real-time Responses and Suggestions</span>
                       </div>
                       <div className="flex items-start gap-3">
                         <SparklesIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">持续学习与优化</span>
+                        <span className="text-gray-400">Continuous Learning and Optimization</span>
                       </div>
                       <div className="flex items-start gap-3">
                         <ShieldCheckIcon className="h-5 w-5 text-gray-400 mt-1 flex-shrink-0" />
-                        <span className="text-gray-400">代码质量保障</span>
+                        <span className="text-gray-400">Code Quality Assurance</span>
                       </div>
                     </div>
                   </div>

@@ -57,10 +57,14 @@ function ConfigPage() {
   const [hubEnabled, setHubEnabled] = useState(false);
 
   // Add new state for form values
-  const [remoteConfigUrl, setRemoteConfigUrl] = useState("http://10.12.110.149:9001/openai/v1/get_continue_config");
+  const [remoteConfigUrl, setRemoteConfigUrl] = useState("");
   const [apiKey, setApiKey] = useState("sk-auto-openai");
   
   const handleSyncConfig = async () => {
+    if (!remoteConfigUrl) {
+      await ideMessenger.ide.showToast("error", "请输入正确远程配置URL", "Error");
+      return;
+    }
     try {      
       await ideMessenger.post("config/resetFromRemoteConfig", { url: remoteConfigUrl, apiKey: apiKey });
       await ideMessenger.ide.showToast("info", "配置同步成功", "OK");
@@ -162,29 +166,29 @@ function ConfigPage() {
           </div>
         )}
 
-        <div className="flex flex-col gap-4 py-6">
-          {/* <h2 className="mb-1 mt-0">Configuration</h2>
+        {/* <div className="flex flex-col gap-4 py-6">
+          <h2 className="mb-1 mt-0">Configuration</h2>
 
           <SecondaryButton
             onClick={handleOpenConfig}
             className="!my-0 max-w-[400px]"
           >
             Open configuration file
-          </SecondaryButton> */}
-        </div>
+          </SecondaryButton>
+        </div> */}
 
         <div className="flex flex-col gap-4 py-6">
           <div>
-            <h2 className="mb-2 mt-0">远程配置同步</h2>
+            <h2 className="mb-2 mt-0">Remote Configuration Sync</h2>
           </div>
             <div className="flex flex-col gap-2">
-              <label>远程配置地址</label>
+              <label>Remote Configuration URL</label>
               <Input
                 value={remoteConfigUrl}
                 onChange={(e) => {
                   setRemoteConfigUrl(e.target.value);
                 }}
-                placeholder="输入远程配置地址"
+                placeholder="Enter remote configuration URL"
               />
             </div>
             
@@ -196,7 +200,7 @@ function ConfigPage() {
                 onChange={(e) => {
                   setApiKey(e.target.value);
                 }}
-                placeholder="输入 API Key"
+                placeholder="Enter API Key"
               />
             </div>
 
@@ -204,7 +208,7 @@ function ConfigPage() {
               onClick={handleSyncConfig}
               className="!my-0"
             >
-              同步远程配置
+              Sync Remote Configuration
             </SecondaryButton>
         </div>
 
