@@ -149,7 +149,7 @@ continue_server.build
 continue_server.dist
 
 Icon
-Icon?
+Icon
 
 .continuerc.json
 .aider*
