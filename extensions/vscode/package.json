@@ -438,7 +438,7 @@
     "submenus": [
       {
         "id": "continue.continueSubMenu",
-        "label": "Continue"
+        "label": "AutoContinue"
       }
     ],
     "menus": {

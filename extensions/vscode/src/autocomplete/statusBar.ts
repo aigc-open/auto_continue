@@ -50,17 +50,20 @@ const statusBarItemText = (
     return "$(alert) Continue (FATAL ERROR)";
   }
 
+  const packageJson = require('../../package.json');
+  let barName = packageJson.name || "Continue";
+
   switch (status) {
     case undefined:
       if (loading) {
-        return "$(loading~spin) Continue";
+        return "$(loading~spin) " + barName;
       }
     case StatusBarStatus.Disabled:
-      return "$(circle-slash) Continue";
+      return "$(circle-slash) " + barName;
     case StatusBarStatus.Enabled:
-      return "$(check) Continue";
+      return "$(check) " + barName;
     case StatusBarStatus.Paused:
-      return "$(debug-pause) Continue";
+      return "$(debug-pause) " + barName;
   }
 };
 

@@ -274,13 +274,13 @@ function autodetectTemplateFunction(
       gemma: gemmaTemplateMessage,
       granite: graniteTemplateMessages,
       llama3: llama3TemplateMessages,
-      none: null,
+      none: chatmlTemplateMessages,
     };
 
     return mapping[templateType];
   }
 
-  return null;
+  return chatmlTemplateMessages;
 }
 
 const USES_OS_MODELS_EDIT_PROMPT: TemplateType[] = [
