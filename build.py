@@ -1,8 +1,64 @@
+import json
+import argparse
+import os
+import sys
+import subprocess
+# AutoContinue
+# python build.py --product_name=AutoContinue --dry
+# python build.py --ide_type=vscode --product_name=AutoContinue --action=build
+# python build.py --ide_type=vscode --product_name=AutoContinue --action=install
+# python build.py --ide_type=jetbrains --product_name=AutoContinue
 
+# EnflameContinue
+# python build.py --product_name=EnflameContinue --dry
+# python build.py --ide_type=vscode --product_name=EnflameContinue --action=build
+# python build.py --ide_type=vscode --product_name=EnflameContinue --action=install
+# python build.py --ide_type=jetbrains --product_name=EnflameContinue
+
+
+from pathlib import Path
+import re
+from typing import Dict, Any
+from pydantic import BaseModel
+
+def set_gradle(name:str, version:str):
+    with open("extensions/intellij/gradle.properties", "w", encoding="utf-8") as f:
+        f.write(f"""
+# IntelliJ Platform Artifacts Repositories -> https://plugins.jetbrains.com/docs/intellij/intellij-artifacts.html
+pluginGroup=com.github.intellij.aigc-open
+pluginName={name}
+pluginRepositoryUrl=https://github.com/aigc-open/auto_continue
+# SemVer format -> https://semver.org
+pluginVersion={version}
+# Supported build number ranges and IntelliJ Platform versions -> https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html
+pluginSinceBuild=223
+# IntelliJ Platform Properties -> https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html#configuration-intellij-extension
+platformType=IC
+platformVersion=2022.3.3
+#platformVersion = LATEST-EAP-SNAPSHOT
+# Plugin Dependencies -> https://plugins.jetbrains.com/docs/intellij/plugin-dependencies.html
+# Example: platformPlugins = com.intellij.java, com.jetbrains.php:203.4449.22
+platformPlugins=org.jetbrains.plugins.terminal
+# Gradle Releases -> https://github.com/gradle/gradle/releases
+gradleVersion=8.3
+# Opt-out flag for bundling Kotlin standard library -> https://jb.gg/intellij-platform-kotlin-stdlib
+kotlin.stdlib.default.dependency=false
+# Enable Gradle Configuration Cache -> https://docs.gradle.org/current/userguide/configuration_cache.html
+org.gradle.configuration-cache=true
+# Enable Gradle Build Cache -> https://docs.gradle.org/current/userguide/build_cache.html
+org.gradle.caching=true
+# Enable Gradle Kotlin DSL Lazy Property Assignment -> https://docs.gradle.org/current/userguide/kotlin_dsl.html#kotdsl:assignment
+systemProp.org.gradle.unsafe.kotlin.assignment=true
+""")
+
+    with open("extensions/intellij/settings.gradle.kts", "w", encoding="utf-8") as f:
+        f.write(f"""rootProject.name = \"{name}-intellij\"""")
+    with open("extensions/intellij/src/main/resources/META-INF/plugin.xml", "w", encoding="utf-8") as f:
+        f.write(f"""
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.continuedev.continueintellijextension</id>
-    <name>EnflameContinue</name>
+    <name>{name}</name>
     <vendor url="https://www.continue.dev/">continue-dev</vendor>
     <change-notes>
         <![CDATA[View the latest release notes on <a href="https://github.com/continuedev/continue/releases">GitHub</a>]]></change-notes>
@@ -20,7 +76,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <editorFactoryListener
                 implementation="com.github.continuedev.continueintellijextension.autocomplete.AutocompleteEditorListener"/>
-        <toolWindow id="EnflameContinue" anchor="right" icon="/tool-window-icon.svg"
+        <toolWindow id="{name}" anchor="right" icon="/tool-window-icon.svg"
                     factoryClass="com.github.continuedev.continueintellijextension.toolWindow.ContinuePluginToolWindowFactory"/>
         <projectService id="ContinuePluginService"
                         serviceImplementation="com.github.continuedev.continueintellijextension.services.ContinuePluginService"/>
@@ -48,7 +104,7 @@
                 parentId="tools"
                 instance="com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable"
                 id="com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable"
-                displayName="EnflameContinue"/>
+                displayName="{name}"/>
         <applicationService
                 serviceImplementation="com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings"/>
     </extensions>
@@ -199,3 +255,94 @@
         </action>
     </actions>
 </idea-plugin>
+""")
+
+def update_vscode(name:str,
+                version="1.0.0", 
+                author= "AutoOpenai",
+                icon="media/cicon.png",
+                publisher="AutoOpenai",
+                displayName="Auto Code Continue - 代码生成 Cursor",
+                description="本地化代码生成器"):
+    os.system(f"cp {icon}.png ./extensions/vscode/media/icon.png")
+    with open("./extensions/vscode/package.json", "r", encoding="utf-8") as f:
+        package = json.load(f)
+    package["name"] = name
+    package["displayName"] = displayName
+    package["description"] = description
+    package["version"] = version
+    package["publisher"] = publisher
+    package["author"] = author
+    with open("./extensions/vscode/package.json", "w") as f:
+        json.dump(package, f, indent=4)
+    return 
+
+
+def update_jetbrains(name:str,
+                version="1.0.0", 
+                author= "AutoOpenai",
+                icon="media/cicon.png",
+                publisher="AutoOpenai",
+                displayName="Auto Code Continue - 代码生成 Cursor",
+                description="本地化代码生成器"):
+    os.system(f"cp {icon}.svg extensions/intellij/src/main/resources/tool-window-icon.svg")
+    os.system(f"cp {icon}.svg extensions/intellij/src/main/resources/tool-window-icon_dark.svg")
+    set_gradle(name, version)
+
+
+# 注意配置时需要png,svg 都需要
+
+config = {
+    "AutoContinue": {
+        "name": "AutoContinue",
+        "displayName": "Auto Code Continue - 代码生成 Cursor",
+        "description": "本地化代码生成器",
+        "icon": "media/cicon",
+        "publisher": "AutoOpenai",
+        "author": "AutoOpenai",
+        "version": "1.0.0"
+    },
+    "EnflameContinue": {
+        "name": "EnflameContinue",
+        "displayName": "Enflame Continue - 代码生成 Cursor",
+        "description": "燧原代码生成-python,javascript,topcc算子生成",
+        "icon": "media/eficon",
+        "publisher": "Enflamer",
+        "author": "Enflamer",
+        "version": "1.0.0"
+    }
+}
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ide_type", type=str, default="vscode", choices=["vscode", "jetbrains"])
+    parser.add_argument("--product_name", type=str, default="AutoContinue")
+    parser.add_argument("--action", type=str, default="build", choices=["build", "install"])
+    parser.add_argument("--dry", action="store_true", default=False)
+    args = parser.parse_args()
+
+    if args.dry:
+        update_vscode(**config[args.product_name])
+        update_jetbrains(**config[args.product_name])
+        return
+
+    if args.ide_type == "vscode":
+        if args.action == "build": 
+            update_vscode(**config[args.product_name])
+            os.system("cd ./core && npm run build:npm")
+            os.system("cd ./extensions/vscode && npm run tsc && npm run e2e:build")
+            
+        elif args.action == "install":
+            os.system("cd ./gui && npm install")
+            os.system("cd ./core && npm install")
+            os.system("cd ./binary && npm install")
+            os.system("cd ./extensions/vscode && npm install")
+
+    elif args.ide_type == "jetbrains":
+        update_jetbrains(**config[args.product_name])
+        os.system("cd ./extensions/intellij && gradlew.bat buildPlugin")
+
+
+if __name__ == "__main__":
+    main()

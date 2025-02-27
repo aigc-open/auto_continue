@@ -80,6 +80,7 @@ class MessageTypes {
             "config/deleteModel",
             "config/listProfiles",
             "config/openProfile",
+            "config/resetFromRemoteConfig",
             "config/updateSharedConfig",
             "context/getContextItems",
             "context/getSymbolsForFiles",

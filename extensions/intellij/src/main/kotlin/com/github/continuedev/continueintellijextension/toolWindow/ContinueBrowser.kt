@@ -32,10 +32,16 @@ class ContinueBrowser(val project: Project, url: String) {
     init {
         val isOSREnabled = ServiceManager.getService(ContinueExtensionSettings::class.java).continueState.enableOSR
 
-        this.browser = JBCefBrowser.createBuilder().setOffScreenRendering(isOSREnabled).build()
+        this.browser = JBCefBrowser.createBuilder()
+            .setEnableOpenDevToolsMenuItem(true)
+            .setOffScreenRendering(isOSREnabled)
+            .build()
 
         registerAppSchemeHandler()
-        browser.loadURL(url);
+        browser.loadURL(url)
+        
+        browser.openDevtools()
+        
         Disposer.register(ContinuePluginDisposable.getInstance(project), browser)
 
         // Listen for events sent from browser
@@ -122,6 +128,10 @@ class ContinueBrowser(val project: Project, url: String) {
 
     private fun buildJavaScript(jsonData: String): String {
         return """window.postMessage($jsonData, "*");"""
+    }
+
+    fun openDevTools() {
+        browser.openDevtools()
     }
 
 }
