@@ -1,25 +1,18 @@
 import json
 import argparse
 import os
-import sys
-import subprocess
 # AutoContinue
 # python build.py --product_name=AutoContinue --dry
-# python build.py --ide_type=vscode --product_name=AutoContinue --action=build
 # python build.py --ide_type=vscode --product_name=AutoContinue --action=install
+# python build.py --ide_type=vscode --product_name=AutoContinue --action=build
 # python build.py --ide_type=jetbrains --product_name=AutoContinue
 
 # EnflameContinue
 # python build.py --product_name=EnflameContinue --dry
-# python build.py --ide_type=vscode --product_name=EnflameContinue --action=build
 # python build.py --ide_type=vscode --product_name=EnflameContinue --action=install
+# python build.py --ide_type=vscode --product_name=EnflameContinue --action=build
 # python build.py --ide_type=jetbrains --product_name=EnflameContinue
 
-
-from pathlib import Path
-import re
-from typing import Dict, Any
-from pydantic import BaseModel
 
 def set_gradle(name:str, version:str):
     with open("extensions/intellij/gradle.properties", "w", encoding="utf-8") as f:
@@ -57,9 +50,9 @@ systemProp.org.gradle.unsafe.kotlin.assignment=true
         f.write(f"""
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.continuedev.continueintellijextension</id>
+    <id>com.github.aigc-open.continueintellijextension</id>
     <name>{name}</name>
-    <vendor url="https://www.continue.dev/">continue-dev</vendor>
+    <vendor url="https://www.continue.dev/">{name}</vendor>
     <change-notes>
         <![CDATA[View the latest release notes on <a href="https://github.com/continuedev/continue/releases">GitHub</a>]]></change-notes>
 
@@ -104,7 +97,7 @@ systemProp.org.gradle.unsafe.kotlin.assignment=true
                 parentId="tools"
                 instance="com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable"
                 id="com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable"
-                displayName="{name}"/>
+                displayName="Continue"/>
         <applicationService
                 serviceImplementation="com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings"/>
     </extensions>
@@ -197,14 +190,6 @@ systemProp.org.gradle.unsafe.kotlin.assignment=true
             <override-text place="GoToAction" text="Continue Config"/>
         </action>
 
-        <action id="continue.openAccountDialog"
-                class="com.github.continuedev.continueintellijextension.actions.OpenAccountDialogAction"
-                icon="AllIcons.CodeWithMe.CwmAccess"
-                text="Account"
-                description="Account">
-            <override-text place="GoToAction" text="Account"/>
-        </action>
-
         <action id="continue.openMorePage"
                 class="com.github.continuedev.continueintellijextension.actions.OpenMorePageAction"
                 icon="AllIcons.Actions.MoreHorizontal"
@@ -217,7 +202,6 @@ systemProp.org.gradle.unsafe.kotlin.assignment=true
             <reference ref="continue.newContinueSession"/>
             <reference ref="continue.viewHistory"/>
             <reference ref="continue.openConfigPage"/>
-            <reference ref="continue.openAccountDialog"/>
             <reference ref="continue.openMorePage"/>
         </group>
 
@@ -287,6 +271,8 @@ def update_jetbrains(name:str,
                 description="本地化代码生成器"):
     os.system(f"cp {icon}.svg extensions/intellij/src/main/resources/tool-window-icon.svg")
     os.system(f"cp {icon}.svg extensions/intellij/src/main/resources/tool-window-icon_dark.svg")
+    os.system(f"cp {icon}.svg extensions/intellij/src/main/resources/META-INF/pluginIcon.svg")
+    os.system(f"cp {icon}.svg extensions/intellij/src/main/resources/META-INF/pluginIcon_dark.svg")
     set_gradle(name, version)
 
 

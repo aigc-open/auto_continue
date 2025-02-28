@@ -1,9 +1,9 @@
 
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.continuedev.continueintellijextension</id>
+    <id>com.github.aigc-open.continueintellijextension</id>
     <name>EnflameContinue</name>
-    <vendor url="https://www.continue.dev/">continue-dev</vendor>
+    <vendor url="https://www.continue.dev/">EnflameContinue</vendor>
     <change-notes>
         <![CDATA[View the latest release notes on <a href="https://github.com/continuedev/continue/releases">GitHub</a>]]></change-notes>
 
@@ -48,7 +48,7 @@
                 parentId="tools"
                 instance="com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable"
                 id="com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable"
-                displayName="EnflameContinue"/>
+                displayName="Continue"/>
         <applicationService
                 serviceImplementation="com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings"/>
     </extensions>
@@ -141,14 +141,6 @@
             <override-text place="GoToAction" text="Continue Config"/>
         </action>
 
-        <action id="continue.openAccountDialog"
-                class="com.github.continuedev.continueintellijextension.actions.OpenAccountDialogAction"
-                icon="AllIcons.CodeWithMe.CwmAccess"
-                text="Account"
-                description="Account">
-            <override-text place="GoToAction" text="Account"/>
-        </action>
-
         <action id="continue.openMorePage"
                 class="com.github.continuedev.continueintellijextension.actions.OpenMorePageAction"
                 icon="AllIcons.Actions.MoreHorizontal"
@@ -161,7 +153,6 @@
             <reference ref="continue.newContinueSession"/>
             <reference ref="continue.viewHistory"/>
             <reference ref="continue.openConfigPage"/>
-            <reference ref="continue.openAccountDialog"/>
             <reference ref="continue.openMorePage"/>
         </group>
 
